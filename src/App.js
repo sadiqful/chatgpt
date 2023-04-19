@@ -4,18 +4,21 @@ const App = () => {
 
     const options = {
       method: "POST",
-      body: JSON.stringify({
-        message: "Hello How are you?"
-      }),
-
       headers: {
-        "Content-Type": "application/json"
-      }
-    }
+          "Authorization": `Bearer ${process.env.REACT_APP_API_KEY}`,
+          "Content-Type": "application/json"
+      },
 
+      body: JSON.stringify({
+          model: "gpt-3.5-turbo",
+          messages: [{ role: "user", content: "How are you"}],
+          max_tokens: 100,
+      })
+      
+  }
     try {
 
-      const response = await fetch('http://localhost:8000/completions', options);
+      const response = await fetch('https://api.openai.com/v1/chat/completions', options);
       const data = await response.json();
       console.log(data)
 
